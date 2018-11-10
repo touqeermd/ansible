@@ -1,0 +1,22 @@
+---
+- hosts: 172.31.20.201
+  become: True
+  tasks:
+    - name: Install apache server
+      yum:
+        name: httpd
+        state: present
+    - name: enable on reboot
+      service:
+        name: httpd
+        enabled: True
+    - name: start apache server
+      service:
+        name: httpd
+        state: started
+
+    - name: copying files to apache 
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+
