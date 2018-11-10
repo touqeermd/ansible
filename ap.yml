@@ -1,6 +1,8 @@
 ---
 - hosts: 172.31.20.201
   become: True
+  vars:
+    - apache_port: 8080
   tasks:
     - name: Install apache server
       yum:
@@ -20,10 +22,11 @@
         src: index.html
         dest: /var/www/html/index.html
     - name: change port number
-      copy:
+      template:
         src: httpd.conf
         dest: /etc/httpd/conf/httpd.conf
-      notify: restart apache
+      notify: 
+        - restart apache
   handlers:
     - name: restart apache
       service:
